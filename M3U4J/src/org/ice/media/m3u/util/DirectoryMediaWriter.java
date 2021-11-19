@@ -10,6 +10,7 @@ public class DirectoryMediaWriter {
 	
 	public static void makeDirectory(String dirPath) throws IOException {
 		
+		dirPath = "\"".concat(dirPath.concat("\""));
 		Path path = Paths.get(dirPath);
         //if directory exists?
         if (!Files.exists(path)) {

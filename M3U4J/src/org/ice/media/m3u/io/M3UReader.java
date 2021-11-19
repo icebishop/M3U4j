@@ -31,12 +31,10 @@ public class M3UReader {
 		M3UList list = new M3UList();
 		BufferedReader br = null;
 		try {
-			
-			list.setName(pathList.substring(pathList.lastIndexOf(File.separator)+1));
-			if(pathList.toLowerCase().endsWith("m3u8"))
-				br = new BufferedReader(
-						   new InputStreamReader(
-				                      new FileInputStream(pathList), StandardCharsets.UTF_8));
+
+			list.setName(pathList.substring(pathList.lastIndexOf(File.separator) + 1));
+			if (pathList.toLowerCase().endsWith("m3u8"))
+				br = new BufferedReader(new InputStreamReader(new FileInputStream(pathList), StandardCharsets.UTF_8));
 			else
 				br = new BufferedReader(new FileReader(pathList));
 
@@ -77,9 +75,11 @@ public class M3UReader {
 		String line = null;
 		int position = 1;
 		while ((extended = reader.readLine()) != null) {
-			line = reader.readLine();
-			list.getMediaFilesMap().put(position, (getData(extended, line, position)));
-			position++;
+			if (!extended.startsWith("#PLAYLIST")) {
+				line = reader.readLine();
+				list.getMediaFilesMap().put(position, (getData(extended, line, position)));
+				position++;
+			}
 		}
 		return list;
 

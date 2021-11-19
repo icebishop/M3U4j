@@ -15,12 +15,18 @@ import me.tongfei.progressbar.ProgressBar;
  * @author ice Export playlist songs to a directory
  */
 public class M3UExporter {
+	
+	private static ProgressBar pb;
+	
+	public M3UExporter(ProgressBar pb) {
+		M3UExporter.pb = pb;
+	}
 
 	public List<MediaFile> export(String path, List<MediaFile> mediaFiles, String rootPath, String listName)
 			throws M3UReaderException {
 
 		try {
-			ProgressBar pb = new ProgressBar("Export", mediaFiles.size());
+			pb.setExtraMessage("Export List");
 			pb.start();
 
 			for (Iterator<MediaFile> iterator = mediaFiles.iterator(); iterator.hasNext();) {
@@ -29,13 +35,23 @@ public class M3UExporter {
 				File source = new File(mediaFile.getUrl());
 				String newMediaUrl = DirectoryMediaWriter.calculatePath(path,
 						mediaFile.getUrl().substring(0, mediaFile.getUrl().lastIndexOf(File.separator)), rootPath);
-				DirectoryMediaWriter.makeDirectory(newMediaUrl);
+//				newMediaUrl = newMediaUrl.replace("'", "\\'");
+//				newMediaUrl = newMediaUrl.replace("(", "\\(");
+//				newMediaUrl = newMediaUrl.replace(")", "\\)");
+//				newMediaUrl = newMediaUrl.replace(" ", "\\ ");
+//				DirectoryMediaWriter.makeDirectory(newMediaUrl);
 				mediaFile.setUrl(newMediaUrl.concat(File.separator
 						.concat(mediaFile.getUrl().substring(mediaFile.getUrl().lastIndexOf(File.separator) + 1))));
 
 				File dest = new File(mediaFile.getUrl());
 
-				FileUtils.copyFile(source, dest);
+				try {
+					FileUtils.copyFile(source, dest);
+				} catch (Exception e) {
+					e.printStackTrace();
+					throw e;
+				}
+				
 
 				pb.step();
 				pb.setExtraMessage(mediaFile.getName());
@@ -47,7 +63,8 @@ public class M3UExporter {
 			return mediaFiles;
 
 		} catch (Exception e) {
-			throw new M3UReaderException(String.format("Error on write plailist %s", e.getMessage()));
+			e.printStackTrace();
+			throw new M3UReaderException(String.format("Error on write playlist %s", e.getMessage()));
 		}
 	}
 
@@ -55,7 +72,6 @@ public class M3UExporter {
 			throws M3UReaderException {
 
 		try {
-			ProgressBar pb = new ProgressBar("Export", mediaFiles.size());
 
 			String padFormat = String.valueOf(mediaFiles.size());
 

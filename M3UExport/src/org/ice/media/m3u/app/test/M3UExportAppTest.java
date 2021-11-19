@@ -43,7 +43,7 @@ class M3UExportAppTest {
 	
 	@Test
 	void testMain7() {
-		String [] args = {"/home/ice/Escritorio/Lista de reproducción.m3u","/mnt/datos/tmp","mi musica","0","none"};
+		String [] args = {"/home/ice/carro.m3u","/run/media/ice/0C49-F5DA","mi musica","100","random"};
 		M3UExportApp.main(args);
 	}
 	
