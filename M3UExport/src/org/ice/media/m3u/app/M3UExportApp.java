@@ -11,6 +11,7 @@ import org.ice.media.m3u.io.M3UReader;
 import org.ice.media.m3u.io.M3UWriter;
 
 import me.tongfei.progressbar.ProgressBar;
+import me.tongfei.progressbar.ProgressBarBuilder;
 import me.tongfei.progressbar.ProgressBarStyle;
 
 public class M3UExportApp {
@@ -40,12 +41,28 @@ public class M3UExportApp {
 		String mode = null;
 		if (args.length >= 5)
 			mode = args[4];
+		
+		String fileMode = "UNIX";
+		if (args.length >= 6)
+			fileMode = args[5];
+		
+		M3UWriter.mode = fileMode;
 
 		try {
 			M3UReader m3uReader = new M3UReader();
 			M3UList m3uList = m3uReader.readList(listPath);
 			
-			pb = new ProgressBar("List Export", m3uList.getMediaFiles().size(), ProgressBarStyle.UNICODE_BLOCK) ;
+			ProgressBarBuilder pbb = new ProgressBarBuilder()
+				    .setInitialMax(m3uList.getMediaFiles().size())
+				    .setStyle(ProgressBarStyle.UNICODE_BLOCK)
+				    .setTaskName("List Export")
+				    .setUnit("Tracks", 1)
+				    //.setUpdateIntervalMillis(<update interval>)
+				    .setMaxRenderedLength(150)
+				    .showSpeed();
+			
+			pb = pbb.build();
+     		//ProgressBar("List Export", m3uList.getMediaFiles().size(), ProgressBarStyle.UNICODE_BLOCK) ;
 			
 			
 			M3UExporter exporter = new M3UExporter(pb  );
@@ -82,11 +99,10 @@ public class M3UExportApp {
 						mediaFiles);
 
 		} catch (Exception e) {		
-			e.printStackTrace();
-			System.out.println(String.format("Error on export playlist"));
+			System.out.println(String.format("Error on export playlist: %s", e.getMessage()));
 		}finally {
 			if(pb != null)
-				pb.stop();
+				pb.close();
 		}
 
 	}

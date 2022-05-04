@@ -25,9 +25,10 @@ public class M3UExporter {
 	public List<MediaFile> export(String path, List<MediaFile> mediaFiles, String rootPath, String listName)
 			throws M3UReaderException {
 
+		pb.setExtraMessage("Export List");
+		pb.reset();
 		try {
-			pb.setExtraMessage("Export List");
-			pb.start();
+			
 
 			for (Iterator<MediaFile> iterator = mediaFiles.iterator(); iterator.hasNext();) {
 				MediaFile mediaFile = iterator.next();
@@ -42,14 +43,13 @@ public class M3UExporter {
 //				DirectoryMediaWriter.makeDirectory(newMediaUrl);
 				mediaFile.setUrl(newMediaUrl.concat(File.separator
 						.concat(mediaFile.getUrl().substring(mediaFile.getUrl().lastIndexOf(File.separator) + 1))));
-
+				mediaFile.setUrl(mediaFile.getUrl().replaceAll("[`~!@#$%^&*_+={}\\[\\]|:;“’<,>?๐฿&äëïöüáéíóúÄËÏÖÜÁÉÍÓÚÑñ]", "_"));
 				File dest = new File(mediaFile.getUrl());
 
 				try {
 					FileUtils.copyFile(source, dest);
 				} catch (Exception e) {
-					e.printStackTrace();
-					throw e;
+					throw new M3UReaderException(e.getMessage());
 				}
 				
 
@@ -58,13 +58,13 @@ public class M3UExporter {
 
 			}
 
-			pb.stop();
+			pb.pause();
 
 			return mediaFiles;
 
 		} catch (Exception e) {
-			e.printStackTrace();
-			throw new M3UReaderException(String.format("Error on write playlist %s", e.getMessage()));
+			pb.pause();
+			throw new M3UReaderException(e.getMessage());			
 		}
 	}
 
@@ -77,7 +77,7 @@ public class M3UExporter {
 
 			padFormat = "%0" + padFormat.length() + "d - ";
 			int counter = 1;
-			pb.start();
+			//pb.start();
 
 			for (Iterator<MediaFile> iterator = mediaFiles.iterator(); iterator.hasNext();) {
 				MediaFile mediaFile = iterator.next();
@@ -96,7 +96,7 @@ public class M3UExporter {
 				counter++;
 			}
 
-			pb.stop();
+			pb.pause();
 
 			return mediaFiles;
 
