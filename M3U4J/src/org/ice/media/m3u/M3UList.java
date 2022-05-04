@@ -85,7 +85,7 @@ public class M3UList implements MediaList {
 		int max = 0;
 
 		if (sorted.size() > split)
-			max = split + 1;
+			max = split;
 		else
 			max = sorted.size();
 
@@ -93,15 +93,15 @@ public class M3UList implements MediaList {
 
 		boolean done = true;
 		do {
-			if (max == sorted.size() + 1)
+			if (max >= sorted.size() )
 				done = false;
 			M3UList list = new M3UList(sorted.subMap(min, max));
-			list.setName(String.format(padFormat, this.name, min, max - 1));
+			list.setName(String.format(padFormat, this.name, min+1, max ));
 			m3uLists.add(list);
-			min = max;
+			min = max ;
 			max = max + split;
 			if (max > sorted.size())
-				max = sorted.size() + 1;
+				max = sorted.size();
 		} while (done);
 
 		return m3uLists;

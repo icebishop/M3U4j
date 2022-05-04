@@ -17,7 +17,17 @@ import me.tongfei.progressbar.ProgressBar;
 public class M3UExporter {
 	
 	private static ProgressBar pb;
+	private final static String FILE_NAME_FILTER = "[`~!¡¿?@#$%^&*_+={}\\[\\]()|:;…“’<,>?๐฿&äëïöüáéíóúÄËÏÖÜÁÉÍÓÚÑñ]";
+	private boolean rewrite;
 	
+	public boolean isRewrite() {
+		return rewrite;
+	}
+
+	public void setRewrite(boolean rewrite) {
+		this.rewrite = rewrite;
+	}
+
 	public M3UExporter(ProgressBar pb) {
 		M3UExporter.pb = pb;
 	}
@@ -28,7 +38,6 @@ public class M3UExporter {
 		pb.setExtraMessage("Export List");
 		pb.reset();
 		try {
-			
 
 			for (Iterator<MediaFile> iterator = mediaFiles.iterator(); iterator.hasNext();) {
 				MediaFile mediaFile = iterator.next();
@@ -36,22 +45,18 @@ public class M3UExporter {
 				File source = new File(mediaFile.getUrl());
 				String newMediaUrl = DirectoryMediaWriter.calculatePath(path,
 						mediaFile.getUrl().substring(0, mediaFile.getUrl().lastIndexOf(File.separator)), rootPath);
-//				newMediaUrl = newMediaUrl.replace("'", "\\'");
-//				newMediaUrl = newMediaUrl.replace("(", "\\(");
-//				newMediaUrl = newMediaUrl.replace(")", "\\)");
-//				newMediaUrl = newMediaUrl.replace(" ", "\\ ");
-//				DirectoryMediaWriter.makeDirectory(newMediaUrl);
 				mediaFile.setUrl(newMediaUrl.concat(File.separator
 						.concat(mediaFile.getUrl().substring(mediaFile.getUrl().lastIndexOf(File.separator) + 1))));
-				mediaFile.setUrl(mediaFile.getUrl().replaceAll("[`~!@#$%^&*_+={}\\[\\]|:;“’<,>?๐฿&äëïöüáéíóúÄËÏÖÜÁÉÍÓÚÑñ]", "_"));
+				mediaFile.setUrl(mediaFile.getUrl()
+						.replaceAll(FILE_NAME_FILTER, "_"));
 				File dest = new File(mediaFile.getUrl());
 
 				try {
-					FileUtils.copyFile(source, dest);
+					if(!dest.exists()||rewrite)
+						FileUtils.copyFile(source, dest);
 				} catch (Exception e) {
 					throw new M3UReaderException(e.getMessage());
 				}
-				
 
 				pb.step();
 				pb.setExtraMessage(mediaFile.getName());
@@ -64,7 +69,7 @@ public class M3UExporter {
 
 		} catch (Exception e) {
 			pb.pause();
-			throw new M3UReaderException(e.getMessage());			
+			throw new M3UReaderException(e.getMessage());
 		}
 	}
 
@@ -86,9 +91,12 @@ public class M3UExporter {
 
 				mediaFile.setUrl(path.concat(File.separator.concat(String.format(padFormat, counter))
 						.concat(mediaFile.getName().concat(mediaFile.getType()))));
+				mediaFile.setUrl(mediaFile.getUrl()
+						.replaceAll(FILE_NAME_FILTER, "_"));
 				File dest = new File(mediaFile.getUrl());
-
-				FileUtils.copyFile(source, dest);
+				
+				if(!dest.exists()||rewrite)
+					FileUtils.copyFile(source, dest);
 
 				pb.step();
 				pb.setExtraMessage(mediaFile.getName());

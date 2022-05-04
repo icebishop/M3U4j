@@ -43,8 +43,8 @@ class M3UExportAppTest {
 
 	@Test
 	void testMain7() {
-		String[] args = { "/mnt/datos/home/ice/personal/varios/playlists/rock.m3u",
-				"/mnt/datos/tmp/PLAYLIST", "mi musica", "100", "random", "WINDOWS" };
+		String[] args = { "/mnt/datos/home/ice/personal/varios/playlists/español.m3u",
+				"/mnt/datos/tmp/usb/playlist", "mi musica", "100", "random", "WINDOWS" , "rewrite" };
 		M3UExportApp.main(args);
 	}
 

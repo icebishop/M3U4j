@@ -46,7 +46,13 @@ public class M3UExportApp {
 		if (args.length >= 6)
 			fileMode = args[5];
 		
+		
+		String rewrite = "";
+		if (args.length >= 7)
+			rewrite = args[6];
+		
 		M3UWriter.mode = fileMode;
+		
 
 		try {
 			M3UReader m3uReader = new M3UReader();
@@ -55,8 +61,8 @@ public class M3UExportApp {
 			ProgressBarBuilder pbb = new ProgressBarBuilder()
 				    .setInitialMax(m3uList.getMediaFiles().size())
 				    .setStyle(ProgressBarStyle.UNICODE_BLOCK)
-				    .setTaskName("List Export")
-				    .setUnit("Tracks", 1)
+				    .setTaskName("Export")
+				    .setUnit("Trck", 1)
 				    //.setUpdateIntervalMillis(<update interval>)
 				    .setMaxRenderedLength(150)
 				    .showSpeed();
@@ -66,6 +72,7 @@ public class M3UExportApp {
 			
 			
 			M3UExporter exporter = new M3UExporter(pb  );
+			exporter.setRewrite(rewrite.equals("rewrite")?true:false);
 			if (mode != null && mode.equals("random")) {
 				if (rootPath.equals(exportPath))
 					mediaFiles = exporter.exportToNumeratedFiles(exportPath, m3uList.randomize(), m3uList.getName());
