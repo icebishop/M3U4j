@@ -17,13 +17,13 @@ import me.tongfei.progressbar.ProgressBarStyle;
 public class M3UExportApp {
 
 	public static void main(String[] args) {
-		
-		ProgressBar pb = null; 
-			
+
+		ProgressBar pb = null;
+
 		List<MediaFile> mediaFiles = null;
-		
+
 		String listPath = args[0];
-		
+
 		String exportPath = args[1];
 
 		String rootPath = "";
@@ -41,48 +41,42 @@ public class M3UExportApp {
 		String mode = null;
 		if (args.length >= 5)
 			mode = args[4];
-		
+
 		String fileMode = "UNIX";
 		if (args.length >= 6)
 			fileMode = args[5];
-		
-		
+
 		String rewrite = "";
 		if (args.length >= 7)
 			rewrite = args[6];
-		
-		M3UWriter.mode = fileMode;
-		
+
+		M3UWriter.setMode(fileMode);
 
 		try {
 			M3UReader m3uReader = new M3UReader();
 			M3UList m3uList = m3uReader.readList(listPath);
-			
-			ProgressBarBuilder pbb = new ProgressBarBuilder()
-				    .setInitialMax(m3uList.getMediaFiles().size())
-				    .setStyle(ProgressBarStyle.UNICODE_BLOCK)
-				    .setTaskName("Export")
-				    .setUnit("Trck", 1)
-				    //.setUpdateIntervalMillis(<update interval>)
-				    .setMaxRenderedLength(150)
-				    .showSpeed();
-			
+
+			ProgressBarBuilder pbb = new ProgressBarBuilder().setInitialMax(m3uList.getMediaFiles().size())
+					.setStyle(ProgressBarStyle.UNICODE_BLOCK).setTaskName("Export").setUnit("Trck", 1)
+					// .setUpdateIntervalMillis(<update interval>)
+					.setMaxRenderedLength(150).showSpeed();
+
 			pb = pbb.build();
-     		//ProgressBar("List Export", m3uList.getMediaFiles().size(), ProgressBarStyle.UNICODE_BLOCK) ;
-			
-			
-			M3UExporter exporter = new M3UExporter(pb  );
-			exporter.setRewrite(rewrite.equals("rewrite")?true:false);
+			// ProgressBar("List Export", m3uList.getMediaFiles().size(),
+			// ProgressBarStyle.UNICODE_BLOCK) ;
+
+			M3UExporter exporter = new M3UExporter(pb);
+			exporter.setRewrite(rewrite.equals("rewrite") ? true : false);
 			if (mode != null && mode.equals("random")) {
 				if (rootPath.equals(exportPath))
-					mediaFiles = exporter.exportToNumeratedFiles(exportPath, m3uList.randomize(), m3uList.getName());
+					mediaFiles = exporter.exportToNumeratedFiles(exportPath, m3uList.randomize());
 				else
-					mediaFiles = exporter.export(exportPath, m3uList.randomize(), rootPath, m3uList.getName());
+					mediaFiles = exporter.export(exportPath, m3uList.randomize(), rootPath);
 			} else {
 				if (rootPath.equals(exportPath))
-					mediaFiles = exporter.exportToNumeratedFiles(exportPath, m3uList.getMediaFiles(), m3uList.getName());
+					mediaFiles = exporter.exportToNumeratedFiles(exportPath, m3uList.getMediaFiles());
 				else
-					mediaFiles = exporter.export(exportPath, m3uList.getMediaFiles(), rootPath, m3uList.getName());
+					mediaFiles = exporter.export(exportPath, m3uList.getMediaFiles(), rootPath);
 			}
 
 			if (split > 0) {
@@ -105,10 +99,10 @@ public class M3UExportApp {
 								.concat(m3uList.getName().substring(0, m3uList.getName().lastIndexOf(".")))),
 						mediaFiles);
 
-		} catch (Exception e) {		
+		} catch (Exception e) {
 			System.out.println(String.format("Error on export playlist: %s", e.getMessage()));
-		}finally {
-			if(pb != null)
+		} finally {
+			if (pb != null)
 				pb.close();
 		}
 

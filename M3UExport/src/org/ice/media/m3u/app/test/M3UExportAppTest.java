@@ -41,10 +41,17 @@ class M3UExportAppTest {
 //		M3UExportApp.main(args);
 //	}
 
+//	@Test
+//	void testMain7() {
+//		String[] args = { "/mnt/datos/home/ice/personal/varios/playlists/español.m3u",
+//				"/mnt/datos/tmp/usb/playlist", "mi musica", "100", "random", "WINDOWS" , "rewrite" };
+//		M3UExportApp.main(args);
+//	}
+	
 	@Test
 	void testMain7() {
-		String[] args = { "/mnt/datos/home/ice/personal/varios/playlists/español.m3u",
-				"/mnt/datos/tmp/usb/playlist", "mi musica", "100", "random", "WINDOWS" , "rewrite" };
+		String[] args = { "/mnt/datos/home/ice/personal/varios/playlists/gorillaz.m3u",
+				"/run/media/ice/0C49-F5DA", "mi musica", "0", "", "" , "rewrite" };
 		M3UExportApp.main(args);
 	}
 

@@ -3,6 +3,7 @@ package org.ice.media.m3u.app;
 import java.io.File;
 
 import org.ice.media.m3u.io.M3UCreator;
+import org.ice.media.m3u.io.M3UCreatorData;
 
 public class M3UCreatorApp {
 
@@ -49,9 +50,18 @@ public class M3UCreatorApp {
 			}
 
 			M3UCreator m3uCreator = new M3UCreator();
-			m3uCreator.create(/* path */ path, /* list name */ listName, /* unicode */ isUnicode,
-					/* extended */ isExtended, /* absolute */ isAbsolute, /* relative */ relative,
-					/* filters */ filters, /* random */ isRandom, split);
+			M3UCreatorData data = new  M3UCreatorData();
+			
+			data.setDirectory(path);
+			data.setPlayListName(listName);
+			data.setUnicode(isUnicode);
+			data.setExtended(isExtended);
+			data.setAbsolute(isAbsolute);
+			data.setRelativePath(relative);
+			data.setFilters(filters);
+			data.setRandom(isRandom);
+			data.setSplit(split);
+			m3uCreator.create(data);
 
 		} catch (Exception e) {
 			System.out.println(String.format("Error on create playlist: %s : %s", e.getMessage()));
