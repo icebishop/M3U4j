@@ -16,8 +16,8 @@ import me.tongfei.progressbar.ProgressBar;
  */
 public class M3UExporter {
 	
-	private static ProgressBar pb;
-	private final static String FILE_NAME_FILTER = "[`~!¡¿?@#$%^&*_+={}\\[\\]()|:;…“’<,>?๐฿&äëïöüáéíóúÄËÏÖÜÁÉÍÓÚÑñ]";
+	private ProgressBar pb;
+	private static final  String FILE_NAME_FILTER = "[`~!¡¿?@#$%^*_+={}\\[\\]()|:;…“’<,>๐฿&äëïöüáéíóúÄËÏÖÜÁÉÍÓÚÑñ]";
 	private boolean rewrite;
 	
 	public boolean isRewrite() {
@@ -29,10 +29,10 @@ public class M3UExporter {
 	}
 
 	public M3UExporter(ProgressBar pb) {
-		M3UExporter.pb = pb;
+		this.pb = pb;
 	}
 
-	public List<MediaFile> export(String path, List<MediaFile> mediaFiles, String rootPath, String listName)
+	public List<MediaFile> export(String path, List<MediaFile> mediaFiles, String rootPath)
 			throws M3UReaderException {
 
 		pb.setExtraMessage("Export List");
@@ -51,12 +51,7 @@ public class M3UExporter {
 						.replaceAll(FILE_NAME_FILTER, "_"));
 				File dest = new File(mediaFile.getUrl());
 
-				try {
-					if(!dest.exists()||rewrite)
-						FileUtils.copyFile(source, dest);
-				} catch (Exception e) {
-					throw new M3UReaderException(e.getMessage());
-				}
+				write(dest, source);
 
 				pb.step();
 				pb.setExtraMessage(mediaFile.getName());
@@ -72,8 +67,17 @@ public class M3UExporter {
 			throw new M3UReaderException(e.getMessage());
 		}
 	}
+	
+	private void write(File dest,File source) throws M3UReaderException {
+		try {
+			if(!dest.exists()||rewrite)
+				FileUtils.copyFile(source, dest);
+		} catch (Exception e) {
+			throw new M3UReaderException(e.getMessage());
+		}
+	}
 
-	public List<MediaFile> exportToNumeratedFiles(String path, List<MediaFile> mediaFiles, String listName)
+	public List<MediaFile> exportToNumeratedFiles(String path, List<MediaFile> mediaFiles)
 			throws M3UReaderException {
 
 		try {
@@ -82,7 +86,6 @@ public class M3UExporter {
 
 			padFormat = "%0" + padFormat.length() + "d - ";
 			int counter = 1;
-			//pb.start();
 
 			for (Iterator<MediaFile> iterator = mediaFiles.iterator(); iterator.hasNext();) {
 				MediaFile mediaFile = iterator.next();

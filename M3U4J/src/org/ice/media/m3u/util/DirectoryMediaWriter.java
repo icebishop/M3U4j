@@ -2,13 +2,20 @@ package org.ice.media.m3u.util;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.invoke.MethodHandles;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-import org.ice.media.m3u.exception.M3UReaderException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class DirectoryMediaWriter {
+	
+	private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass().getSimpleName());
+	private DirectoryMediaWriter() {
+		super();
+	}
 
 	public static void makeDirectory(String dirPath) throws IOException {
 
@@ -18,14 +25,14 @@ public class DirectoryMediaWriter {
 		if (!Files.exists(path)) {
 			try {
 				Files.createDirectories(path);
-			} catch (IOException e) {
-				throw e;
+			} catch (Exception e) {
+				logger.error(e.getMessage());
 			}
 		}
 
 	}
 
-	public static String calculatePath(String path, String urlMediaFile, String rootPath) throws M3UReaderException {
+	public static String calculatePath(String path, String urlMediaFile, String rootPath){
 		String newPath = null;
 
 		if (rootPath.startsWith(File.separator))
@@ -41,7 +48,8 @@ public class DirectoryMediaWriter {
 			newPath = urlMediaFile.substring(index);
 			newPath = path.concat(File.separator.concat(newPath));
 		}else {
-			throw new M3UReaderException(String.format("Not found %s in %s", rootPath, urlMediaFile));
+			newPath = urlMediaFile.substring(urlMediaFile.lastIndexOf(File.separator)+1);
+			newPath = path.concat(File.separator.concat(rootPath.concat(File.separator.concat(newPath))));
 		}
 		return newPath;
 	}

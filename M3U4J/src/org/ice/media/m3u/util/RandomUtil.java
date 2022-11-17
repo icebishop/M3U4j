@@ -7,8 +7,11 @@ import java.util.Set;
 public class RandomUtil {
 	
 	private static Random r = new Random();
-	public static Set<Integer> generated = new HashSet<Integer>();
+	protected static Set<Integer> generated = new HashSet<>();
 	
+	private RandomUtil() {
+		super();
+	}
 	
 	public static int getNumber(int max, int min) {
 		int number =0;
@@ -19,6 +22,10 @@ public class RandomUtil {
 		generated.add(number);
 		
 		return number;
+	}
+	
+	public static void clear() {
+		generated.clear();
 	}
 
 }

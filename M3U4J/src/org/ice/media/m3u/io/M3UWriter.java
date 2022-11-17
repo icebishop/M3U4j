@@ -2,35 +2,40 @@ package org.ice.media.m3u.io;
 
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.lang.invoke.MethodHandles;
 import java.nio.charset.StandardCharsets;
 import java.util.Iterator;
 import java.util.List;
 
 import org.ice.media.m3u.MediaFile;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class M3UWriter {
+	
+	private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass().getSimpleName());
 
-	public static String mode = "UNIX";
-	public final static char CR = (char) 0x0D;
-	public final static char LF = (char) 0x0A;
+	private static String mode = "UNIX";
+	public static final char CR = (char) 0x0D;
+	public static final char LF = (char) 0x0A;
+
+	private M3UWriter() {
+		super();
+	}
 
 	public static void writeList(boolean isUnicode, boolean isExtended, String relativePath, String playListName,
-			List<MediaFile> mediaFiles) throws Exception {
+			List<MediaFile> mediaFiles) throws IOException {
 		BufferedWriter writer = null;
 
 		try {
 
-			if (mediaFiles.size() > 0) {
-				if (isUnicode) {
-					writer = new BufferedWriter(new OutputStreamWriter(
-							new FileOutputStream(playListName.concat(".M3U8")), StandardCharsets.UTF_8));
-				} else {
-					writer = new BufferedWriter(
-							new OutputStreamWriter(new FileOutputStream(playListName.concat(".M3U"))));
-				}
+			if (!mediaFiles.isEmpty()) {
+
+				writer = createWriter(isUnicode, playListName);
 
 				if (isExtended) {
 					writer.write("#EXTM3U");
@@ -39,27 +44,41 @@ public class M3UWriter {
 
 				for (Iterator<MediaFile> iterator = mediaFiles.iterator(); iterator.hasNext();) {
 					MediaFile mediaFile = iterator.next();
-					if (mediaFile != null)
-						if (isExtended) {
-							writeExtended(writer, mediaFile, relativePath);
-						} else {
-							writeSimple(writer, mediaFile, relativePath);
-						}
-					else
-						System.out.println("Media File null");
+					writeMediaFile(mediaFile, isExtended, writer, relativePath);
+
 				}
 
 			}
-		} catch (Exception e) {
-			throw e;
+		} catch (IOException e) {
+			logger.error(e.getMessage());
 		} finally {
-			try {
+			if (writer != null)
 				writer.close();
-			} catch (IOException e) {
-				throw e;
-			}
 		}
 
+	}
+
+	private static BufferedWriter createWriter(boolean isUnicode, String playListName) throws FileNotFoundException {
+		if (isUnicode) {
+			return new BufferedWriter(
+					new OutputStreamWriter(new FileOutputStream(playListName.concat(".M3U8")), StandardCharsets.UTF_8));
+		} else {
+			return new BufferedWriter(new OutputStreamWriter(new FileOutputStream(playListName.concat(".M3U"))));
+		}
+	}
+
+	private static void writeMediaFile(MediaFile mediaFile, boolean isExtended, BufferedWriter writer,
+			String relativePath) throws IOException {
+		if (mediaFile != null) {
+			if (isExtended) {
+				writeExtended(writer, mediaFile, relativePath);
+			} else {
+				writeSimple(writer, mediaFile, relativePath);
+			}
+		}
+		else {
+			logger.info("Media File null");
+		}
 	}
 
 	private static void writeExtended(BufferedWriter writer, MediaFile mediaFile, String relativePath)
@@ -90,7 +109,7 @@ public class M3UWriter {
 
 	private static String getURL(String url) {
 		if (mode.equals("WINDOWS")) {
-			return  "\\".concat( url.replace('/', '\\'));
+			return "\\".concat(url.replace('/', '\\'));
 		} else
 			return url;
 
@@ -98,9 +117,17 @@ public class M3UWriter {
 
 	private static String newline() {
 		if (mode.equals("WINDOWS")) {
-			return ""+CR+LF;
+			return "" + CR + LF;
 		} else
-			return ""+LF;
+			return "" + LF;
+	}
+
+	public static String getMode() {
+		return mode;
+	}
+
+	public static void setMode(String mode) {
+		M3UWriter.mode = mode;
 	}
 
 }

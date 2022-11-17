@@ -3,26 +3,32 @@ package org.ice.media.m3u.test.io;
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.ice.media.m3u.io.M3UCreator;
+import org.ice.media.m3u.io.M3UCreatorData;
 import org.junit.jupiter.api.Test;
 
 class M3UCreatorTest {
+	
+	private static String path = "/mnt/datos/tmp/Musica Decembrina/LOS MEJORES DE DICIEMBRE";
 
 	@Test
 	void testCreate01() {
 
 		M3UCreator m3uCreator = new M3UCreator();
-
+		
+		M3UCreatorData data = new  M3UCreatorData();
+		String[] filters = { "mp3" };
+		data.setDirectory(path);
+		data.setPlayListName("/mnt/datos/tmp/Musica Decembrina/LOS MEJORES DE DICIEMBRE/test1");
+		data.setUnicode(true);
+		data.setExtended(true);
+		data.setAbsolute(true);
+		data.setRelativePath(path);
+		data.setFilters(filters);
+		data.setRandom(true);
+		data.setSplit(100);
 		try {
-			String[] filters = { "mp3" };
-			m3uCreator.create(/*path*/ "/mnt/datos/tmp/Musica Decembrina/LOS MEJORES DE DICIEMBRE",
-				    	 /*list name*/ "/mnt/datos/tmp/Musica Decembrina/LOS MEJORES DE DICIEMBRE/test1",
-				    	   /*unicode*/ true,
-				    	  /*extended*/ true,
-				    	  /*absolute*/ true,
-				    	  /*relative*/ "/mnt/datos/tmp/Musica Decembrina/LOS MEJORES DE DICIEMBRE",
-				    	   /*filters*/ filters,
-				    	    /*random*/ true,
-				    	    /*split */ 100);
+			
+			m3uCreator.create(data);
 		} catch (Exception e) {
 			e.printStackTrace();
 			fail(e.getCause());
@@ -34,18 +40,19 @@ class M3UCreatorTest {
 	void testCreate02() {
 
 		M3UCreator m3uCreator = new M3UCreator();
-
+		M3UCreatorData data = new  M3UCreatorData();
+		String[] filters = { "mp3" };
+		data.setDirectory(path);
+		data.setPlayListName("/mnt/datos/tmp/Musica Decembrina/LOS MEJORES DE DICIEMBRE/test2");
+		data.setUnicode(true);
+		data.setExtended(true);
+		data.setAbsolute(true);
+		data.setRelativePath(path);
+		data.setFilters(filters);
+		data.setRandom(false);
+		data.setSplit(100);
 		try {
-			String[] filters = { "mp3" };
-			m3uCreator.create(/*path*/ "/mnt/datos/tmp/Musica Decembrina/LOS MEJORES DE DICIEMBRE",
-				    	 /*list name*/ "/mnt/datos/tmp/Musica Decembrina/LOS MEJORES DE DICIEMBRE/test2",
-				    	   /*unicode*/ true,
-				    	  /*extended*/ true,
-				    	  /*absolute*/ true,
-				    	  /*relative*/ "/mnt/datos/tmp/Musica Decembrina/LOS MEJORES DE DICIEMBRE",
-				    	   /*filters*/ filters,
-				    	    /*random*/ false,
-				    	    /*split */ 100);
+			m3uCreator.create(data);
 		} catch (Exception e) {
 			e.printStackTrace();
 			fail(e.getCause());
@@ -57,18 +64,20 @@ class M3UCreatorTest {
 	void testCreate03() {
 
 		M3UCreator m3uCreator = new M3UCreator();
-
+		M3UCreatorData data = new  M3UCreatorData();
+		String[] filters = { "mp3" };
+		data.setDirectory(path);
+		data.setPlayListName("/mnt/datos/tmp/Musica Decembrina/LOS MEJORES DE DICIEMBRE/test3");
+		data.setUnicode(true);
+		data.setExtended(true);
+		data.setAbsolute(false);
+		data.setRelativePath(path);
+		data.setFilters(filters);
+		data.setRandom(true);
+		data.setSplit(100);
 		try {
-			String[] filters = { "mp3" };
-			m3uCreator.create(/*path*/ "/mnt/datos/tmp/Musica Decembrina/LOS MEJORES DE DICIEMBRE",
-				    	 /*list name*/ "/mnt/datos/tmp/Musica Decembrina/LOS MEJORES DE DICIEMBRE/test3",
-				    	   /*unicode*/ true,
-				    	  /*extended*/ true,
-				    	  /*absolute*/ false,
-				    	  /*relative*/ "/mnt/datos/tmp/Musica Decembrina/LOS MEJORES DE DICIEMBRE",
-				    	   /*filters*/ filters,
-				    	    /*random*/ true,
-				    	    /*split */ 100);
+			
+			m3uCreator.create(data);
 		} catch (Exception e) {
 			e.printStackTrace();
 			fail(e.getCause());
@@ -80,18 +89,20 @@ class M3UCreatorTest {
 	void testCreate04() {
 
 		M3UCreator m3uCreator = new M3UCreator();
-
+		M3UCreatorData data = new  M3UCreatorData();
+		String[] filters = { "mp3" };
+		data.setDirectory(path);
+		data.setPlayListName("/mnt/datos/tmp/Musica Decembrina/LOS MEJORES DE DICIEMBRE/test4");
+		data.setUnicode(true);
+		data.setExtended(false);
+		data.setAbsolute(true);
+		data.setRelativePath(path);
+		data.setFilters(filters);
+		data.setRandom(true);
+		data.setSplit(100);
 		try {
-			String[] filters = { "mp3" };
-			m3uCreator.create(/*path*/ "/mnt/datos/tmp/Musica Decembrina/LOS MEJORES DE DICIEMBRE",
-				    	 /*list name*/ "/mnt/datos/tmp/Musica Decembrina/LOS MEJORES DE DICIEMBRE/test4",
-				    	   /*unicode*/ true,
-				    	  /*extended*/ false,
-				    	  /*absolute*/ true,
-				    	  /*relative*/ "/mnt/datos/tmp/Musica Decembrina/LOS MEJORES DE DICIEMBRE",
-				    	   /*filters*/ filters,
-				    	    /*random*/ true,
-				    	    /*split */ 100);
+			
+			m3uCreator.create(data);
 		} catch (Exception e) {
 			e.printStackTrace();
 			fail(e.getCause());
@@ -103,18 +114,20 @@ class M3UCreatorTest {
 	void testCreate05() {
 
 		M3UCreator m3uCreator = new M3UCreator();
-
+		M3UCreatorData data = new  M3UCreatorData();
+		String[] filters = { "mp3" };
+		data.setDirectory(path);
+		data.setPlayListName("/mnt/datos/tmp/Musica Decembrina/LOS MEJORES DE DICIEMBRE/test5");
+		data.setUnicode(false);
+		data.setExtended(true);
+		data.setAbsolute(true);
+		data.setRelativePath(path);
+		data.setFilters(filters);
+		data.setRandom(true);
+		data.setSplit(100);
 		try {
-			String[] filters = { "mp3" };
-			m3uCreator.create(/*path*/ "/mnt/datos/tmp/Musica Decembrina/LOS MEJORES DE DICIEMBRE",
-				    	 /*list name*/ "/mnt/datos/tmp/Musica Decembrina/LOS MEJORES DE DICIEMBRE/test5",
-				    	   /*unicode*/ false,
-				    	  /*extended*/ true,
-				    	  /*absolute*/ true,
-				    	  /*relative*/ "/mnt/datos/tmp/Musica Decembrina/LOS MEJORES DE DICIEMBRE",
-				    	   /*filters*/ filters,
-				    	    /*random*/ true,
-				    	    /*split */ 100);
+			
+			m3uCreator.create(data);
 		} catch (Exception e) {
 			e.printStackTrace();
 			fail(e.getCause());
@@ -126,18 +139,19 @@ class M3UCreatorTest {
 	void testCreate06() {
 
 		M3UCreator m3uCreator = new M3UCreator();
-
+		M3UCreatorData data = new  M3UCreatorData();
+		String[] filters = { "mp3" };
+		data.setDirectory(path);
+		data.setPlayListName("/mnt/datos/tmp/Musica Decembrina/LOS MEJORES DE DICIEMBRE/test6");
+		data.setUnicode(false);
+		data.setExtended(true);
+		data.setAbsolute(true);
+		data.setRelativePath(path);
+		data.setFilters(filters);
+		data.setRandom(false);
+		data.setSplit(100);
 		try {
-			String[] filters = { "mp3" };
-			m3uCreator.create(/*path*/ "/mnt/datos/tmp/Musica Decembrina/LOS MEJORES DE DICIEMBRE",
-				    	 /*list name*/ "/mnt/datos/tmp/Musica Decembrina/LOS MEJORES DE DICIEMBRE/test6",
-				    	   /*unicode*/ false,
-				    	  /*extended*/ true,
-				    	  /*absolute*/ true,
-				    	  /*relative*/ "/mnt/datos/tmp/Musica Decembrina/LOS MEJORES DE DICIEMBRE",
-				    	   /*filters*/ filters,
-				    	    /*random*/ false,
-				    	    /*split */ 100);
+			m3uCreator.create(data);
 		} catch (Exception e) {
 			e.printStackTrace();
 			fail(e.getCause());
@@ -149,18 +163,19 @@ class M3UCreatorTest {
 	void testCreate07() {
 
 		M3UCreator m3uCreator = new M3UCreator();
-
+		M3UCreatorData data = new  M3UCreatorData();
+		String[] filters = { "mp3" };
+		data.setDirectory(path);
+		data.setPlayListName("/mnt/datos/tmp/Musica Decembrina/LOS MEJORES DE DICIEMBRE/test7");
+		data.setUnicode(false);
+		data.setExtended(true);
+		data.setAbsolute(false);
+		data.setRelativePath(path);
+		data.setFilters(filters);
+		data.setRandom(true);
+		data.setSplit(100);
 		try {
-			String[] filters = { "mp3" };
-			m3uCreator.create(/*path*/ "/mnt/datos/tmp/Musica Decembrina/LOS MEJORES DE DICIEMBRE",
-				    	 /*list name*/ "/mnt/datos/tmp/Musica Decembrina/LOS MEJORES DE DICIEMBRE/test7",
-				    	   /*unicode*/ false,
-				    	  /*extended*/ true,
-				    	  /*absolute*/ false,
-				    	  /*relative*/ "/mnt/datos/tmp/Musica Decembrina/LOS MEJORES DE DICIEMBRE",
-				    	   /*filters*/ filters,
-				    	    /*random*/ true,
-				    	    /*split */ 100);
+			m3uCreator.create(data);
 		} catch (Exception e) {
 			e.printStackTrace();
 			fail(e.getCause());
@@ -172,18 +187,20 @@ class M3UCreatorTest {
 	void testCreate08() {
 
 		M3UCreator m3uCreator = new M3UCreator();
-
+		M3UCreatorData data = new  M3UCreatorData();
+		String[] filters = { "mp3" };
+		data.setDirectory(path);
+		data.setPlayListName("/mnt/datos/tmp/Musica Decembrina/LOS MEJORES DE DICIEMBRE/test8");
+		data.setUnicode(false);
+		data.setExtended(false);
+		data.setAbsolute(true);
+		data.setRelativePath(path);
+		data.setFilters(filters);
+		data.setRandom(true);
+		data.setSplit(100);
 		try {
-			String[] filters = { "mp3" };
-			m3uCreator.create(/*path*/ "/mnt/datos/tmp/Musica Decembrina/LOS MEJORES DE DICIEMBRE",
-				    	 /*list name*/ "/mnt/datos/tmp/Musica Decembrina/LOS MEJORES DE DICIEMBRE/test8",
-				    	   /*unicode*/ false,
-				    	  /*extended*/ false,
-				    	  /*absolute*/ true,
-				    	  /*relative*/ "/mnt/datos/tmp/Musica Decembrina/LOS MEJORES DE DICIEMBRE",
-				    	   /*filters*/ filters,
-				    	    /*random*/ true,
-				    	    /*split */ 100);
+			
+			m3uCreator.create(data);
 		} catch (Exception e) {
 			e.printStackTrace();
 			fail(e.getCause());
@@ -194,18 +211,20 @@ class M3UCreatorTest {
 		void testCreate09() {
 
 			M3UCreator m3uCreator = new M3UCreator();
-
+			M3UCreatorData data = new  M3UCreatorData();
+			String[] filters = { "mp3" };
+			data.setDirectory(path);
+			data.setPlayListName("/mnt/datos/tmp/Musica Decembrina/LOS MEJORES DE DICIEMBRE/test9");
+			data.setUnicode(false);
+			data.setExtended(false);
+			data.setAbsolute(true);
+			data.setRelativePath(path);
+			data.setFilters(filters);
+			data.setRandom(false);
+			data.setSplit(100);
 			try {
-				String[] filters = { "mp3" };
-				m3uCreator.create(/*path*/ "/mnt/datos/tmp/Musica Decembrina/LOS MEJORES DE DICIEMBRE",
-					    	 /*list name*/ "/mnt/datos/tmp/Musica Decembrina/LOS MEJORES DE DICIEMBRE/test9",
-					    	   /*unicode*/ false,
-					    	  /*extended*/ false,
-					    	  /*absolute*/ true,
-					    	  /*relative*/ "/mnt/datos/tmp/Musica Decembrina/LOS MEJORES DE DICIEMBRE",
-					    	   /*filters*/ filters,
-					    	    /*random*/ false,
-					    	    /*split */ 100);
+				
+				m3uCreator.create(data);
 			} catch (Exception e) {
 				e.printStackTrace();
 				fail(e.getCause());
@@ -217,18 +236,20 @@ class M3UCreatorTest {
 		void testCreate10() {
 
 			M3UCreator m3uCreator = new M3UCreator();
-
+			M3UCreatorData data = new  M3UCreatorData();
+			String[] filters = { "mp3" };
+			data.setDirectory(path);
+			data.setPlayListName("/mnt/datos/tmp/Musica Decembrina/LOS MEJORES DE DICIEMBRE/test10");
+			data.setUnicode(false);
+			data.setExtended(false);
+			data.setAbsolute(false);
+			data.setRelativePath(path);
+			data.setFilters(filters);
+			data.setRandom(false);
+			data.setSplit(100);
 			try {
-				String[] filters = { "mp3" };
-				m3uCreator.create(/*path*/ "/mnt/datos/tmp/Musica Decembrina/LOS MEJORES DE DICIEMBRE",
-					    	 /*list name*/ "/mnt/datos/tmp/Musica Decembrina/LOS MEJORES DE DICIEMBRE/test10",
-					    	   /*unicode*/ false,
-					    	  /*extended*/ false,
-					    	  /*absolute*/ false,
-					    	  /*relative*/ "/mnt/datos/tmp/Musica Decembrina/LOS MEJORES DE DICIEMBRE",
-					    	   /*filters*/ filters,
-					    	    /*random*/ true,
-					    	    /*split */ 100);
+				
+				m3uCreator.create(data);
 			} catch (Exception e) {
 				e.printStackTrace();
 				fail(e.getCause());
@@ -240,18 +261,20 @@ class M3UCreatorTest {
 		void testCreate11() {
 
 			M3UCreator m3uCreator = new M3UCreator();
-
+			M3UCreatorData data = new  M3UCreatorData();
+			String[] filters = { "mp3" };
+			data.setDirectory(path);
+			data.setPlayListName("/mnt/datos/tmp/Musica Decembrina/LOS MEJORES DE DICIEMBRE/test11");
+			data.setUnicode(false);
+			data.setExtended(false);
+			data.setAbsolute(false);
+			data.setRelativePath(path);
+			data.setFilters(filters);
+			data.setRandom(false);
+			data.setSplit(100);
 			try {
-				String[] filters = { "mp3" };
-				m3uCreator.create(/*path*/ "/mnt/datos/tmp/Musica Decembrina/LOS MEJORES DE DICIEMBRE",
-					    	 /*list name*/ "/mnt/datos/tmp/Musica Decembrina/LOS MEJORES DE DICIEMBRE/test11",
-					    	   /*unicode*/ false,
-					    	  /*extended*/ false,
-					    	  /*absolute*/ false,
-					    	  /*relative*/ "/mnt/datos/tmp/Musica Decembrina/LOS MEJORES DE DICIEMBRE",
-					    	   /*filters*/ filters,
-					    	    /*random*/ false,
-					    	    /*split */ 100);
+				
+				m3uCreator.create(data);
 			} catch (Exception e) {
 				e.printStackTrace();
 				fail(e.getCause());
@@ -263,18 +286,20 @@ class M3UCreatorTest {
 		void testCreate12() {
 
 			M3UCreator m3uCreator = new M3UCreator();
-
+			M3UCreatorData data = new  M3UCreatorData();
+			String[] filters = { "mp3" };
+			data.setDirectory(path);
+			data.setPlayListName("/mnt/datos/tmp/Musica Decembrina/LOS MEJORES DE DICIEMBRE/test12");
+			data.setUnicode(true);
+			data.setExtended(false);
+			data.setAbsolute(false);
+			data.setRelativePath(path);
+			data.setFilters(filters);
+			data.setRandom(false);
+			data.setSplit(100);
 			try {
-				String[] filters = { "mp3" };
-				m3uCreator.create(/*path*/ "/mnt/datos/tmp/Musica Decembrina/LOS MEJORES DE DICIEMBRE",
-					    	 /*list name*/ "/mnt/datos/tmp/Musica Decembrina/LOS MEJORES DE DICIEMBRE/test12",
-					    	   /*unicode*/ true,
-					    	  /*extended*/ false,
-					    	  /*absolute*/ false,
-					    	  /*relative*/ "/mnt/datos/tmp/Musica Decembrina/LOS MEJORES DE DICIEMBRE",
-					    	   /*filters*/ filters,
-					    	    /*random*/ false,
-					    	    /*split */ 100);
+				
+				m3uCreator.create(data);
 			} catch (Exception e) {
 				e.printStackTrace();
 				fail(e.getCause());

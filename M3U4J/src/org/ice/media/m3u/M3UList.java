@@ -16,7 +16,7 @@ public class M3UList implements MediaList {
 	private String name;
 
 	public M3UList() {
-		mediaFiles = new TreeMap<Integer, MediaFile>();
+		mediaFiles = new TreeMap<>();
 		type = "M3U";
 	}
 
@@ -28,7 +28,7 @@ public class M3UList implements MediaList {
 	@Override
 	public List<MediaFile> getMediaFiles() {
 
-		return new ArrayList<MediaFile>(mediaFiles.values());
+		return new ArrayList<>(mediaFiles.values());
 	}
 
 	@Override
@@ -51,11 +51,11 @@ public class M3UList implements MediaList {
 	@Override
 	public List<MediaFile> randomize() {
 
-		RandomUtil.generated.clear();
+		RandomUtil.clear();
 
 		int min = mediaFiles.firstKey();
 		int max = mediaFiles.lastKey();
-		List<MediaFile> randomFiles = new ArrayList<MediaFile>();
+		List<MediaFile> randomFiles = new ArrayList<>();
 		int number = 0;
 		for (int i = 0; i < mediaFiles.size(); i++) {
 			number = RandomUtil.getNumber(max, min);
@@ -77,9 +77,7 @@ public class M3UList implements MediaList {
 	}
 
 	public List<M3UList> split(int split) {
-		List<M3UList> m3uLists = new ArrayList<M3UList>();
-		// TreeMap<Integer, MediaFile> sorted = new TreeMap<Integer,
-		// MediaFile>(this.mediaFiles);
+		List<M3UList> m3uLists = new ArrayList<>();
 		SortedMap<Integer, MediaFile> sorted = this.mediaFiles;
 		int min = 0;
 		int max = 0;

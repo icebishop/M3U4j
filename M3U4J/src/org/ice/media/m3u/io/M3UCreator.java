@@ -13,30 +13,29 @@ import org.ice.media.m3u.util.DirectoryMediaReader;
 
 public class M3UCreator {
 
-	public void create(String directory, String playListName, boolean isUnicode, boolean isExtended, boolean isAbsolute,
-			String relativePath, String[] filters, boolean isRandom, int split) throws Exception {
+	public void create(M3UCreatorData data) throws IOException {
 
 		List<MediaFile> mediaFiles = null;
 
 		List<M3UList> m3uLists = null;
 
-		if (isAbsolute)
-			relativePath = null;
+		if (data.isAbsolute())
+			data.setRelativePath(null);
 
-		List<String> listStrings = DirectoryMediaReader.readDirectory(directory, filters);
+		List<String> listStrings = DirectoryMediaReader.readDirectory(data.getDirectory(), data.getFilters());
 
 		Collections.sort(listStrings);
 
-		M3UList m3uList = generate(relativePath, listStrings);
-		m3uList.setName(playListName);
+		M3UList m3uList = generate(data.getRelativePath(), listStrings);
+		m3uList.setName(data.getPlayListName());
 
-		if (isRandom)
+		if (data.isRandom())
 			m3uList.setMediaFiles(m3uList.randomize());
 
-		if (split > 0) {
-			m3uLists = m3uList.split(split);
+		if (data.getSplit() > 0) {
+			m3uLists = m3uList.split(data.getSplit());
 		} else {
-			m3uLists = new ArrayList<M3UList>();
+			m3uLists = new ArrayList<>();
 			m3uLists.add(m3uList);
 		}
 
@@ -45,7 +44,7 @@ public class M3UCreator {
 
 			mediaFiles = list.getMediaFiles();
 
-			M3UWriter.writeList(isUnicode, isExtended, relativePath, list.getName(), mediaFiles);
+			M3UWriter.writeList(data.isUnicode(), data.isExtended(), data.getRelativePath(), list.getName(), mediaFiles);
 		}
 
 	}
@@ -64,7 +63,7 @@ public class M3UCreator {
 			return line;
 	}
 
-	public M3UList generate(String relativePath, List<String> filesList) throws IOException {
+	public M3UList generate(String relativePath, List<String> filesList) {
 
 		M3UList m3uList = new M3UList();
 		MediaFile mediaFile = null;
