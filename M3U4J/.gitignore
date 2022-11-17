@@ -1,7 +1,11 @@
-/target/
-/bin/
-/.settings/
+/target/*
+/bin/*
+.settings/*
 *.M3U8
 .classpath
 .project
-/settings.xml
+settings.xml
+.settings
+.project
+.classpath
+settings.xml
