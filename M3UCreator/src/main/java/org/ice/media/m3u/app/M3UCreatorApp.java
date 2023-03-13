@@ -64,7 +64,7 @@ public class M3UCreatorApp {
 			m3uCreator.create(data);
 
 		} catch (Exception e) {
-			System.out.println(String.format("Error on create playlist: %s : %s", e.getMessage()));
+			System.out.println(String.format("Error on create playlist: %s ", e.getMessage()));
 		}
 
 	}
