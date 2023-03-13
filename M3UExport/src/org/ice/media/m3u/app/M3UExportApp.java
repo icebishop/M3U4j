@@ -66,7 +66,7 @@ public class M3UExportApp {
 			// ProgressBarStyle.UNICODE_BLOCK) ;
 
 			M3UExporter exporter = new M3UExporter(pb);
-			exporter.setRewrite(rewrite.equals("rewrite") ? true : false);
+			exporter.setRewrite(rewrite.equals("rewrite"));
 			if (mode != null && mode.equals("random")) {
 				if (rootPath.equals(exportPath))
 					mediaFiles = exporter.exportToNumeratedFiles(exportPath, m3uList.randomize());
