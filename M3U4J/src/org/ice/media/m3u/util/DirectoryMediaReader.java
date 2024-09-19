@@ -8,7 +8,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.slf4j.Logger;
@@ -29,8 +28,7 @@ public class DirectoryMediaReader {
 		try (Stream<Path> walk = Files.walk(Paths.get(path))) {
 
 			return  walk.map(Path::toString)
-					.filter(file -> fileFilter.accept(new File(file))).collect(Collectors.toList());
-			
+					.filter(file -> fileFilter.accept(new File(file))).toList();			
 
 		} catch (IOException e) {
 			logger.error(e.getMessage());

@@ -1,11 +1,16 @@
 package org.ice.media.m3u.app;
 
 import java.io.File;
+import java.lang.invoke.MethodHandles;
 
 import org.ice.media.m3u.io.M3UCreator;
 import org.ice.media.m3u.io.M3UCreatorData;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class M3UCreatorApp {
+	
+	private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass().getSimpleName());
 
 	public static void main(String[] args) {
 		boolean isUnicode = false;
@@ -64,7 +69,7 @@ public class M3UCreatorApp {
 			m3uCreator.create(data);
 
 		} catch (Exception e) {
-			System.out.println(String.format("Error on create playlist: %s ", e.getMessage()));
+			logger.error(String.format("Error on create playlist: %s ", e.getMessage()));
 		}
 
 	}
