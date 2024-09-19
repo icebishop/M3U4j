@@ -21,7 +21,7 @@ import org.slf4j.LoggerFactory;
  * @author ice Read a M3U playlist simple or extended
  */
 public class M3UReader {
-	
+
 	private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass().getSimpleName());
 
 	private static final String EXT_PATTERN = "(#EXTINF:)(\\d+)(,)([\\s\\S]+)";
@@ -33,19 +33,15 @@ public class M3UReader {
 	}
 
 	private BufferedReader createBufferedReader(String pathList) {
-		if (pathList.toLowerCase().endsWith("m3u8")) {
-			try (BufferedReader br = new BufferedReader(
-					new InputStreamReader(new FileInputStream(pathList), StandardCharsets.UTF_8))) {
-				return br;
-			} catch (Exception e) {
-				logger.info(e.getMessage());
+
+		try {
+			if (pathList.toLowerCase().endsWith("m3u8")) {
+				return new BufferedReader(new InputStreamReader(new FileInputStream(pathList), StandardCharsets.UTF_8));
+			} else {
+				return new BufferedReader(new FileReader(pathList));
 			}
-		} else {
-			try (BufferedReader br = new BufferedReader(new FileReader(pathList))) {
-				return br;
-			} catch (Exception e) {
-				logger.info(e.getMessage());
-			}
+		} catch (Exception e) {
+			logger.info(e.getMessage());
 		}
 		return null;
 	}
@@ -54,19 +50,27 @@ public class M3UReader {
 		M3UList list = new M3UList();
 
 		BufferedReader br = createBufferedReader(pathList);
-		if (br != null) {
-			String line = br.readLine();
-			if (line.startsWith("#EXTM3U")) {
-				list = readExtended(br);
-			} else {
-				br.close();
-				br = createBufferedReader(pathList);
-				if (br != null) {
-					list = read(br);
-				}
-			}
 
-			list.setName(pathList.substring(pathList.lastIndexOf(File.separator) + 1));
+		if (br != null) {
+			try {
+				String line = br.readLine();
+				if (line.startsWith("#EXTM3U")) {
+					list = readExtended(br);
+				} else {
+					br.close();
+					br = createBufferedReader(pathList);
+					if (br != null) {
+						list = read(br);
+					}
+				}
+
+				list.setName(pathList.substring(pathList.lastIndexOf(File.separator) + 1));
+			} catch (IOException e) {
+				throw new M3UReaderException(e);
+			} finally {
+				if (br != null)
+					br.close();
+			}
 		}
 
 		return list;

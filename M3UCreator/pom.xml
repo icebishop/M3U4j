@@ -4,6 +4,19 @@
 	<artifactId>M3UCreator</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>M3UCreator</name>
+	<build>
+		<plugins>
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.8.0</version>
+				<configuration>
+					<source>22</source>
+					<target>22</target>
+					<encoding>UTF-8</encoding>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
 	<dependencies>
 		<dependency>
 			<groupId>M3U4j</groupId>
@@ -18,11 +31,7 @@
 		<dependency>
 			<groupId>me.tongfei</groupId>
 			<artifactId>progressbar</artifactId>
-			<version>0.9.3</version>
+			<version>0.10.1</version>
 		</dependency>
 	</dependencies>
-	<properties>
-		<maven.compiler.source>1.8</maven.compiler.source>
-		<maven.compiler.target>1.8</maven.compiler.target>
-	</properties>
 </project>
