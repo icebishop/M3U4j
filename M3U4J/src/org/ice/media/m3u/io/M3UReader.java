@@ -93,10 +93,12 @@ public class M3UReader {
 		M3UList list = new M3UList();
 		int position = 1;
 		while ((extended = reader.readLine()) != null) {
-			if (!extended.startsWith("#PLAYLIST")) {
+			if (extended.startsWith("#EXTINF:")) {
 				line = reader.readLine();
-				list.getMediaFilesMap().put(position, (getData(extended, line, position)));
-				position++;
+				if (!line.equals("") && !extended.equals("")) {
+					list.getMediaFilesMap().put(position, (getData(extended, line, position)));
+					position++;
+				}
 			}
 		}
 		return list;
@@ -105,9 +107,10 @@ public class M3UReader {
 
 	private MediaFile getData(String extendedData, String line, int position) throws M3UReaderException {
 		MediaFile mediaFile = new MediaFile();
-
+			
+		logger.debug(String.format("Extended: %s, position %s",extendedData, position));
 		try {
-			if (extendedData != null) {
+			if (extendedData != null) { 
 				if (extendedData.startsWith("#EXTINF:")) {
 					Matcher m = pattern.matcher(extendedData);
 					if (m.matches()) {
@@ -130,6 +133,7 @@ public class M3UReader {
 			mediaFile.setUrl(line);
 			mediaFile.setPosition(position);
 		} catch (Exception e) {
+			logger.error(e.getMessage());			
 			throw new M3UReaderException(e.getCause().getMessage());
 		}
 		return mediaFile;

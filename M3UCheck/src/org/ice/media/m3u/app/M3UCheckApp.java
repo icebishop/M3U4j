@@ -1,5 +1,6 @@
 package org.ice.media.m3u.app;
 
+import java.io.Console;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -31,11 +32,8 @@ public class M3UCheckApp {
 			M3UList m3uList = m3uReader.readList(listPath);
 
 			ProgressBarBuilder pbb = new ProgressBarBuilder().setInitialMax(m3uList.getMediaFiles().size())
-					.setStyle(ProgressBarStyle.UNICODE_BLOCK).setTaskName("List Check")
-					.setMaxRenderedLength(10).showSpeed();
-
+					.setStyle(ProgressBarStyle.COLORFUL_UNICODE_BAR).setTaskName("List Check");
 			pb = pbb.build();
-			
 			mediaFiles = m3uList.getMediaFiles();
 			long megabytes = 0;
 			for (Iterator<MediaFile> iterator = mediaFiles.iterator(); iterator.hasNext();) {
@@ -49,9 +47,13 @@ public class M3UCheckApp {
 				pb.step();
 			}
 			pb.pause();
+			
+			
 
 			if (errorMediaFiles.isEmpty()) {
-				System.console().writer().println(String.format("List %s OK Size %s MB", m3uList.getName(), megabytes));
+				Console console = System.console();
+				console.writer().println(String.format("List %s OK Size %s MB", m3uList.getName(), megabytes));				
+				pb.setExtraMessage(String.format("List %s OK Size %s MB", m3uList.getName(), megabytes));
 			} else {
 				System.console().writer().println(String.format("%s Errors on list %s:", errorMediaFiles.size(), m3uList.getName()));
 				for (Iterator<MediaFile> iterator = errorMediaFiles.iterator(); iterator.hasNext();) {
